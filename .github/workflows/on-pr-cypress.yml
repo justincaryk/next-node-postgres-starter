@@ -1,0 +1,39 @@
+name: Run Cypress Tests on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main # Specify the branch to trigger the workflow on PRs against this branch
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          yarn
+          npx cypress install
+
+      - name: Start application server
+        run: yarn dev
+        env:
+          NODE_ENV: development
+
+      - name: Wait for server to start
+        run: |
+          npx wait-on http://localhost:3000
+        env:
+          WAIT_ON_TIMEOUT: 60 # Adjust as necessary
+
+      - name: Run Cypress tests
+        run: yarn cypress:run
