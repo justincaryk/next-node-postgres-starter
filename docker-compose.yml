@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    ports:
+      - '${PG_PORT}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      DATABASE: ${DATABASE}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      DB_HOST: postgres
+      PG_PORT: ${PG_PORT}
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+    profiles:
+      - backend
+
+  nextapp:
+    container_name: nextapp
+    image: nextapp:1.0.0
+    build:
+      context: ./frontend
+      dockerfile: next.dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000 # Adjust URL if necessary
+    depends_on:
+      - backend
+    profiles:
+      - nextapp
+
+volumes:
+  postgres_data: {}

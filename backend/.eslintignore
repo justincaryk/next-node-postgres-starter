@@ -1,0 +1,8 @@
+
+dist
+*.config.js
+node_modules
+coverage
+.next
+build
+.sql

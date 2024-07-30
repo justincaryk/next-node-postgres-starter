@@ -1,0 +1,29 @@
+{
+  "extends": ["../.eslintrc", "plugin:cypress/recommended"],
+  "compilerOptions": {
+    "types": ["cypress", "node"]
+  },
+  "env": {
+    "cypress/globals": true
+  },
+  "plugins": ["cypress"],
+  "rules": {
+    "jest/expect-expect": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "../"
+  },
+  "overrides": [
+    {
+      "files": ["cypress/**/*.ts", "cypress/**/*.tsx"],
+      "env": {
+        "cypress/globals": true
+      },
+      "plugins": ["cypress"],
+      "rules": {
+        "jest/expect-expect": "off"
+      }
+    }
+  ]
+}
