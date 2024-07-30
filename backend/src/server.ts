@@ -1,21 +1,12 @@
 import express from 'express';
-import { postgraphile } from 'postgraphile';
-import { dbConfig } from '../config/database';
+
+import postgraphileMiddleware from './postgraphile';
 
 const app = express();
+const port = process.env.PORT || 5000;
 
-app.use(
-  postgraphile(
-    `postgres://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`,
-    'public',
-    {
-      graphiql: true,
-      enhanceGraphiql: true,
-    },
-  ),
-);
+app.use(postgraphileMiddleware);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}/api/graphiql`);
 });
