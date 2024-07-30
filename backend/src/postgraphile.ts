@@ -11,9 +11,7 @@ const pool = new Pool({
   password: dbConfig.PG_PASSWORD,
 });
 
-export { pool as pg };
-
-export default postgraphile(pool, dbConfig.PG_SCHEMA, {
+const postgraphileOptions = {
   // watchPg: true, // Need extension for this to work properly
   jwtSecret: dbConfig.JWT_SECRET,
   jwtPgTypeIdentifier: 'public.jwt_token',
@@ -25,5 +23,9 @@ export default postgraphile(pool, dbConfig.PG_SCHEMA, {
   graphiqlRoute: '/api/graphiql',
   retryOnInitFail: true,
   ownerConnectionString: dbConfig.OWNER_CONNECTION_STRING,
-});
+};
 
+const postgraphileMiddleware = postgraphile(pool, dbConfig.PG_SCHEMA, postgraphileOptions);
+
+export { pool as pg };
+export default postgraphileMiddleware;
