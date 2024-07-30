@@ -7,6 +7,9 @@ const port = process.env.PORT || 5000;
 
 app.use(postgraphileMiddleware);
 
-app.listen(port, () => {
+app.listen(port, (err?: any) => {
+  if (err) {
+    return console.error('Server startup error:', err);
+  }
   console.log(`Server is running on http://localhost:${port}/api/graphiql`);
 });

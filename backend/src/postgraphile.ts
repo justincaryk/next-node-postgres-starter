@@ -11,6 +11,9 @@ const pool = new Pool({
   password: dbConfig.PG_PASSWORD,
 });
 
+console.log('dbCOnfig: ', {
+    dbConfig
+})
 const postgraphileOptions = {
   // watchPg: true, // Need extension for this to work properly
   jwtSecret: dbConfig.JWT_SECRET,
