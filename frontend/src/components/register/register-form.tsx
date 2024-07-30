@@ -61,7 +61,9 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
         if (result.code === 'ok') {
           onSuccess();
         } else if (result.code === 'email in use') {
-          setError(AUTH_FORM_FIELDS.EMAIL, { message: 'Email is in use. Try another or log in' });
+          setError(AUTH_FORM_FIELDS.EMAIL, {
+            message: 'Email is in use. Try another or log in',
+          });
         }
       }
     } catch (error) {
@@ -142,7 +144,9 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           const hasErrors = !!errors.email?.message;
           const newValue = e.currentTarget.value;
-          setValue(AUTH_FORM_FIELDS.EMAIL, newValue, { shouldValidate: hasErrors });
+          setValue(AUTH_FORM_FIELDS.EMAIL, newValue, {
+            shouldValidate: hasErrors,
+          });
         }}
         onBlur={() => {
           const { email } = getValues();
