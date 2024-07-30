@@ -10,7 +10,7 @@
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' 'config/**/*.{ts,tsx}' --fix",
     "format:check": "prettier --check",
     "format:write": "prettier --write ./",
-    "migrate": "ts-node ./scripts/run-setup.ts"
+    "migrate": "ts-node ./scripts/preprocess-sql.ts && ts-node ./scripts/run-setup.ts"
   },
   "dependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",

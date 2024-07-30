@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync, readFileSync, unlinkSync } from 'fs';
 import { join, resolve } from 'path';
 
 import { config } from 'dotenv';
@@ -17,6 +17,7 @@ const client = new Client({
 
 // Directory containing SQL files
 const sqlDirectory = join(__dirname, 'sql');
+const processedFilePath = join(sqlDirectory, '0-setup-processed.sql');
 
 // Function to execute SQL files
 const executeSqlFiles = async () => {
@@ -26,8 +27,16 @@ const executeSqlFiles = async () => {
     // Read all SQL files from the directory
     const files = readdirSync(sqlDirectory);
 
-    // Filter and sort files by their prefix number
-    const sortedFiles = files
+    // Exclude the 1-setup-database.sql file
+    const filteredFiles = files.filter((file) => file !== '1-setup-database.sql');
+    
+    // Ensure the processed file is in the list
+    if (!filteredFiles.includes('0-setup-processed.sql')) {
+      throw new Error('Processed file not found in the directory.');
+    }
+
+    // Sort files by their prefix number
+    const sortedFiles = filteredFiles
       .filter((file) => file.endsWith('.sql'))
       .sort((a, b) => {
         const numA = parseInt(a.split('_')[0], 10);
@@ -43,6 +52,12 @@ const executeSqlFiles = async () => {
       console.log(`Executing ${file}...`);
       await client.query(sql);
       console.log(`${file} executed successfully.`);
+    }
+
+    // Remove the temporary processed file
+    if (files.includes('0-setup-processed.sql')) {
+      unlinkSync(processedFilePath);
+      console.log('Temporary processed file removed.');
     }
 
     console.log('All SQL scripts executed successfully.');
