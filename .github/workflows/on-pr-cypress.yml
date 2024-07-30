@@ -26,15 +26,15 @@ jobs:
 
       - name: Start application server
         working-directory: frontend
-        run: yarn dev
+        run: yarn dev &
         env:
           NODE_ENV: development
 
-      # - name: Wait for server to start
-      #   run: |
-      #     npx wait-on http://localhost:3000
-      #   env:
-      #     WAIT_ON_TIMEOUT: 60 # Adjust as necessary
+      - name: Wait for server to start
+        run: |
+          npx wait-on http://localhost:3000
+        env:
+          WAIT_ON_TIMEOUT: 30 # Adjust as necessary
 
       - name: Run Cypress tests
         working-directory: frontend
