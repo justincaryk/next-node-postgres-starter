@@ -56,7 +56,7 @@ export default function AddVetVistForm({ onSuccess }: AddVisitFormProps) {
       <FormField
         label="Notes"
         placeholder="Notes"
-        type="text"
+        type="textarea"
         errors={errors.notes}
         {...register(RECORD_FORM_FIELDS.NOTES)}
       />

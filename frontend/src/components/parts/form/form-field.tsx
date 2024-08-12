@@ -4,6 +4,7 @@ import React, {
   InputHTMLAttributes,
   KeyboardEvent,
   SelectHTMLAttributes,
+  TextareaHTMLAttributes,
   useImperativeHandle,
   useRef,
 } from 'react';
@@ -13,6 +14,7 @@ import Dropdown from './dropdown';
 import Input from './input';
 import Label from './label';
 import Password from './password';
+import TextArea from './text-area';
 
 // interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 //   label?: string;
@@ -31,6 +33,13 @@ interface InputFormFieldProps extends BaseFormFieldProps, InputHTMLAttributes<HT
   name: string;
 }
 
+interface TextAreaFormFieldProps
+  extends BaseFormFieldProps,
+    TextareaHTMLAttributes<HTMLTextAreaElement> {
+  type: 'textarea';
+  name: string;
+}
+
 interface SelectFormFieldProps extends BaseFormFieldProps, SelectHTMLAttributes<HTMLSelectElement> {
   type: 'select';
   name: string;
@@ -41,7 +50,7 @@ interface SelectFormFieldProps extends BaseFormFieldProps, SelectHTMLAttributes<
   }[];
 }
 
-type FormFieldProps = InputFormFieldProps | SelectFormFieldProps;
+type FormFieldProps = InputFormFieldProps | SelectFormFieldProps | TextAreaFormFieldProps;
 
 const FormField = React.forwardRef(
   ({ label, errors, name, ...rest }: FormFieldProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -75,6 +84,16 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
+        {rest.type === 'textarea' ? (
+          <TextArea
+            name={name}
+            errors={errors}
+            {...rest}
+            ref={ref as React.Ref<HTMLTextAreaElement>}
+            aria-describedby={name}
+          />
+        ) : null}
+
         {rest.type === 'select' ? (
           <Dropdown
             name={name}
@@ -85,7 +104,7 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
-        {rest.type !== 'select' && rest.type !== 'password' ? (
+        {rest.type !== 'select' && rest.type !== 'password' && rest.type !== 'textarea' ? (
           <Input
             errors={errors}
             name={name}
