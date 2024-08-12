@@ -12,3 +12,5 @@ BEGIN
         PERFORM dblink_exec('dbname={{DB_NAME}}', 'CREATE DATABASE {{DB_NAME}}');
     END IF;
 END $do$;
+
+CREATE SCHEMA IF NOT EXISTS private;
