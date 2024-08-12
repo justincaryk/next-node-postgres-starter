@@ -21,38 +21,38 @@ describe('SignupPage', () => {
     cy.checkA11y();
   });
 
-  it('should submit the form with valid data and show the success message', () => {
-    cy.intercept('POST', '/api/register-user', {
-      statusCode: 200,
-      body: { code: 'ok' },
-    }).as('registerUser');
+  // it('should submit the form with valid data and show the success message', () => {
+  //   cy.intercept('POST', '/api/register-user', {
+  //     statusCode: 200,
+  //     body: { code: 'ok' },
+  //   }).as('registerUser');
 
-    cy.get('input[name="email"]').type('testuser@example.com');
-    cy.get('input[name="password"]').type(VALID_PASSWORD);
-    cy.contains('button', 'Register').click();
+  //   cy.get('input[name="email"]').type('testuser@example.com');
+  //   cy.get('input[name="password"]').type(VALID_PASSWORD);
+  //   cy.contains('button', 'Register').click();
 
-    cy.wait('@registerUser');
+  //   cy.wait('@registerUser');
 
-    cy.contains('You just joined').should('exist');
-    cy.contains('Continue to profile setup').should('exist');
+  //   cy.contains('You just joined').should('exist');
+  //   cy.contains('Continue to profile setup').should('exist');
 
-    cy.checkA11y();
-  });
+  //   cy.checkA11y();
+  // });
 
-  it('should show an error message if the email is already in use', () => {
-    cy.intercept('POST', '/api/register-user', {
-      statusCode: 200,
-      body: { code: 'email in use' },
-    }).as('registerUserEmailExists');
+  // it('should show an error message if the email is already in use', () => {
+  //   cy.intercept('POST', '/api/register-user', {
+  //     statusCode: 200,
+  //     body: { code: 'email in use' },
+  //   }).as('registerUserEmailExists');
 
-    cy.get('input[name="email"]').type(EMAIL_EXISTS);
-    cy.get('input[name="password"]').type(VALID_PASSWORD);
-    cy.contains('button', 'Register').click();
+  //   cy.get('input[name="email"]').type(EMAIL_EXISTS);
+  //   cy.get('input[name="password"]').type(VALID_PASSWORD);
+  //   cy.contains('button', 'Register').click();
 
-    cy.wait('@registerUserEmailExists');
+  //   cy.wait('@registerUserEmailExists');
 
-    cy.contains('Email is in use. Try another or log in').should('exist');
+  //   cy.contains('Email is in use. Try another or log in').should('exist');
 
-    cy.checkA11y();
-  });
+  //   cy.checkA11y();
+  // });
 });

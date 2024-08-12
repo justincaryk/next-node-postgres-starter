@@ -2,16 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 
-import SignInForm from '@/components/login/login-form';
-import AuthSwitchFooter from '@/components/parts/auth-switch-footer';
+import AuthSwitchFooter from '@/components/auth/auth-switch-footer';
+import SignInForm from '@/components/auth/login-form';
 import PageTitle from '@/components/parts/page-title';
-import { COMPANY_NAME, ROUTES } from '@/constants';
+import { COMPANY_NAME, PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/constants';
 
 export default function SigninPage() {
   const router = useRouter();
 
   const onFormSubmitSuccess = () => {
-    router.push(ROUTES.DASHBOARD);
+    router.push(PRIVATE_ROUTES.DASHBOARD);
   };
 
   return (
@@ -21,7 +21,7 @@ export default function SigninPage() {
       <SignInForm onSuccess={onFormSubmitSuccess} />
 
       <AuthSwitchFooter
-        to={ROUTES.SIGNUP}
+        to={PUBLIC_ROUTES.SIGNUP}
         text={`New to ${COMPANY_NAME}?`}
         linkText="Create an account"
       />
