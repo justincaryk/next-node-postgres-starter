@@ -13,7 +13,7 @@ services:
 
   template-backend:
     build: ./backend
-    container_name: backend
+    container_name: template-backend
     environment:
       DATABASE: ${DATABASE}
       PG_USER: ${PG_USER}
@@ -27,10 +27,10 @@ services:
     depends_on:
       - template-postgres
     profiles:
-      - backend
+      - template-backend
 
   template-frontend:
-    container_name: frontend
+    container_name: template-frontend
     image: nextapp:1.0.0
     build:
       context: ./frontend
@@ -42,7 +42,7 @@ services:
     depends_on:
       - template-backend
     profiles:
-      - frontend
+      - template-frontend
 
 volumes:
   pgdata: {}

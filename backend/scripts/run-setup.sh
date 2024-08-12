@@ -110,7 +110,7 @@ execute_sql_files() {
     echo "Executing $(basename "$file")..."
     
     # psql -h /var/run/postgresql -p 5432 -U $PGUSER -d $PGDATABASE -f "$file"
-    psql -h novellia-postgres -p 5432 -U $PGUSER -d $PGDATABASE -f "$file"
+    psql -h template-postgres -p 5432 -U $PGUSER -d $PGDATABASE -f "$file"
     
     echo "$(basename "$file") executed successfully."
   done
