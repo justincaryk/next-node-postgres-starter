@@ -1,0 +1,11 @@
+schema: http://localhost:5000/api/graphql
+documents:
+  - './src/graphql/**/*.ts'
+generates:
+  ./src/graphql/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+config:
+  reactQueryVersion: 5
+  maybeValue: 'T'
