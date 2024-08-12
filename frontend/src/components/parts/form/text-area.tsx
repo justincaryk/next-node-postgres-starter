@@ -1,6 +1,6 @@
 'use client';
 
-import React, { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
