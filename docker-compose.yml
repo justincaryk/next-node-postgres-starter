@@ -1,7 +1,7 @@
 services:
-  postgres:
+  novellia-postgres:
     image: postgres:13
-    container_name: postgres
+    container_name: novellia-postgres
     environment:
       POSTGRES_DB: ${DATABASE}
       POSTGRES_USER: ${PG_USER}
@@ -9,28 +9,28 @@ services:
     ports:
       - '${PG_PORT}:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
-  backend:
+  novellia-backend:
     build: ./backend
     container_name: backend
     environment:
       DATABASE: ${DATABASE}
       PG_USER: ${PG_USER}
       PG_PASSWORD: ${PG_PASSWORD}
-      DB_HOST: postgres
+      DB_HOST: novellia-postgres
       PG_PORT: ${PG_PORT}
       NODE_ENV: ${NODE_ENV}
       JWT_SECRET: ${JWT_SECRET}
     ports:
       - '5000:5000'
     depends_on:
-      - postgres
+      - novellia-postgres
     profiles:
       - backend
 
-  nextapp:
-    container_name: nextapp
+  novellia-frontend:
+    container_name: frontend
     image: nextapp:1.0.0
     build:
       context: ./frontend
@@ -38,11 +38,11 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:5000 # Adjust URL if necessary
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
     depends_on:
-      - backend
+      - novellia-backend
     profiles:
-      - nextapp
+      - frontend
 
 volumes:
-  postgres_data: {}
+  pgdata: {}
