@@ -5,7 +5,7 @@ import { FieldError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 export const baseInputStyles =
-  'h-10 px-3 py-1.5 w-full text-gray-700 bg-white border border-solid rounded transition ease-in-out m-0 focus:outline-none bg-clip-padding';
+  'px-3 py-1.5 w-full text-gray-700 bg-white border border-solid rounded transition ease-in-out m-0 focus:outline-none bg-clip-padding';
 export const cleanIputStyles = 'border-gray-300  focus:border-blue-md';
 export const errorInputStyles = 'border-red-error  focus:border-red-error';
 
@@ -31,6 +31,7 @@ const TextArea = React.forwardRef(
         id={rest.name}
         aria-invalid={errors?.message ? 'true' : 'false'}
         className={classes}
+        rows={3}
         {...rest}
       />
     );
