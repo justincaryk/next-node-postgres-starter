@@ -12,7 +12,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         <div className="font-bold text-4xl text-blue-dark">{COMPANY_NAME}</div>
         <div className="rounded-full bg-blue-dark ml-2 p-1">
           <div className="rounded-full bg-blue-light p-1">
-            <img src="novellia-pets.png" className="max-h-7" alt={`${COMPANY_NAME} Logo`} />
+            <img src="my-pets-logo.png" className="max-h-7" alt={`${COMPANY_NAME} Logo`} />
           </div>
         </div>
       </div>
