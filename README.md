@@ -65,9 +65,9 @@ docker build
 
 5. Docker Profiles have been set up for the frontend and backend directories. The db is always configured to run. Choose which best suits your development requirements:
 
-- To spin up nextapp and db only: `docker compose --profile frontend up`
-- To spin up backend and db only: `docker compose --profile backend up`
-- To spin up the whole app: `docker compose --profile backend --profile frontend up`
+- To spin up nextapp and db only: `docker compose --profile template-frontend up`
+- To spin up backend and db only: `template-postgres`
+- To spin up the whole app: `docker compose --profile template-backend --profile template-frontend up`
 
 If you want to run these in a detached state, you can append the `-d` flag to the end of the commands above, which will free up the terminal window.
 
