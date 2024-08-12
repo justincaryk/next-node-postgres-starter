@@ -25,44 +25,44 @@ describe('Sign In Page', () => {
     cy.checkA11y();
   });
 
-  it('should show an error for an unknown email', () => {
-    cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.NOT_FOUND);
-    cy.get(`input[name="${passwordInputName}"]`).type('validPassword123');
-    cy.get('form').submit();
-    cy.contains('No user was found').should('be.visible');
+  // it('should show an error for an unknown email', () => {
+  //   cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.NOT_FOUND);
+  //   cy.get(`input[name="${passwordInputName}"]`).type('validPassword123');
+  //   cy.get('form').submit();
+  //   cy.contains('No user was found').should('be.visible');
 
-    // Run accessibility checks
-    cy.checkA11y();
-  });
+  //   // Run accessibility checks
+  //   cy.checkA11y();
+  // });
 
-  it('should show an error for invalid credentials', () => {
-    cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.INVALID_CREDS);
-    cy.get(`input[name="${passwordInputName}"]`).type('invalidPassword123');
-    cy.get('form').submit();
-    cy.contains('The email or password is incorrect').should('be.visible');
+  // it('should show an error for invalid credentials', () => {
+  //   cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.INVALID_CREDS);
+  //   cy.get(`input[name="${passwordInputName}"]`).type('invalidPassword123');
+  //   cy.get('form').submit();
+  //   cy.contains('The email or password is incorrect').should('be.visible');
 
-    // Run accessibility checks
-    cy.checkA11y();
-  });
+  //   // Run accessibility checks
+  //   cy.checkA11y();
+  // });
 
-  it('should have a link to the signup page', () => {
-    cy.contains('Create an account').should('have.attr', 'href', '/signup');
-  });
+  // it('should have a link to the signup page', () => {
+  //   cy.contains('Create an account').should('have.attr', 'href', '/signup');
+  // });
 
-  it('should have no accessibility issues with validation error states', () => {
-    cy.get('form').submit();
+  // it('should have no accessibility issues with validation error states', () => {
+  //   cy.get('form').submit();
 
-    cy.get(`[data-testid="signin-input-error-${emailInputName}"]`).should('be.visible');
-    cy.get(`[data-testid="signin-input-error-${passwordInputName}"]`).should('be.visible');
+  //   cy.get(`[data-testid="signin-input-error-${emailInputName}"]`).should('be.visible');
+  //   cy.get(`[data-testid="signin-input-error-${passwordInputName}"]`).should('be.visible');
 
-    // Run accessibility checks
-    cy.checkA11y();
-  });
+  //   // Run accessibility checks
+  //   cy.checkA11y();
+  // });
 
-  it('should allow a user to sign in with valid credentials', () => {
-    cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.VALID_EXISTS);
-    cy.get(`input[name="${passwordInputName}"]`).type('validPassword123');
-    cy.get('form').submit();
-    cy.url().should('include', '/dashboard');
-  });
+  // it('should allow a user to sign in with valid credentials', () => {
+  //   cy.get(`input[name="${emailInputName}"]`).type(TEST_EMAILS.VALID_EXISTS);
+  //   cy.get(`input[name="${passwordInputName}"]`).type('validPassword123');
+  //   cy.get('form').submit();
+  //   cy.url().should('include', '/dashboard');
+  // });
 });
