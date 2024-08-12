@@ -2,28 +2,29 @@
 
 import { useState } from 'react';
 
-import AuthSwitchFooter from '@/components/parts/auth-switch-footer';
+import AuthSwitchFooter from '@/components/auth/auth-switch-footer';
+import RegisterForm from '@/components/create-profile/register-form';
+import RegisterSuccess from '@/components/create-profile/register-success';
 import PageTitle from '@/components/parts/page-title';
-import RegisterForm from '@/components/register/register-form';
-import RegisterSuccess from '@/components/register/register-success';
-import { ROUTES } from '@/constants';
+import { PUBLIC_ROUTES } from '@/constants';
+import { SignupResult } from '@/graphql/generated/graphql';
 
 export default function SignupPage() {
-  const [successfullyRegistered, setSuccessfullyRegistered] = useState(false);
+  const [registerResult, setRegisterResult] = useState<SignupResult | null>(null);
 
-  const onFormSubmitSuccess = () => {
-    setSuccessfullyRegistered(true);
+  const onFormSubmitSuccess = (result: SignupResult) => {
+    setRegisterResult(result);
   };
 
   return (
     <>
-      {successfullyRegistered ? (
-        <RegisterSuccess />
+      {registerResult ? (
+        <RegisterSuccess result={registerResult} />
       ) : (
         <div className="space-y-10">
           <PageTitle text={'Create an account.'} />
           <RegisterForm onSuccess={onFormSubmitSuccess} />
-          <AuthSwitchFooter to={ROUTES.SIGNIN} text="Already a user?" linkText="Log in" />
+          <AuthSwitchFooter to={PUBLIC_ROUTES.SIGNIN} text="Already a user?" linkText="Log in" />
         </div>
       )}
     </>
