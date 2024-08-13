@@ -115,7 +115,10 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
-        {rest.type === 'text' || rest.type === 'input' || rest.type === 'date' || rest.type === 'email' ? (
+        {rest.type === 'text' ||
+        rest.type === 'input' ||
+        rest.type === 'date' ||
+        rest.type === 'email' ? (
           <Input
             errors={errors}
             name={name}
