@@ -7,52 +7,40 @@ import { FieldError } from 'react-hook-form';
 import { render, screen } from '@testing-library/react';
 import FormField from '../form/form-field';
 
-// jest.mock('./components', () => ({
-//   Input: jest.fn(({ errors, name, ...rest }) => (
-//     <input
-//       data-testid="input"
-//       {...rest}
-//       name={name}
-//       aria-invalid={errors?.message ? 'true' : 'false'}
-//     />
-//   )),
-//   Label: jest.fn(({ text, htmlFor }) => <label htmlFor={htmlFor}>{text}</label>),
-// }));
-
 describe('FormField Component', () => {
   const baseProps = {
-    name: 'email',
-    label: 'Email',
+    name: 'name',
+    label: 'Name',
     errors: undefined,
   };
 
   it('should render the label when provided', () => {
-    render(<FormField {...baseProps} />);
+    render(<FormField type="text" {...baseProps} />);
 
-    const labelElement = screen.getByText('Email');
+    const labelElement = screen.getByText(baseProps.label);
     expect(labelElement).toBeInTheDocument();
   });
 
   it('axe accessibility should be happy', async () => {
-    render(<FormField {...baseProps} />);
+    render(<FormField type="text" {...baseProps} />);
 
-    const labelElement = screen.getByText('Email');
+    const labelElement = screen.getByText(baseProps.label);
     expect(await axe(labelElement)).toHaveNoViolations();
   });
 
   it('should not render the label when not provided', () => {
-    render(<FormField {...baseProps} label={''} />);
+    render(<FormField type="text" {...baseProps} label={''} />);
 
-    const labelElement = screen.queryByText('Email');
+    const labelElement = screen.queryByText(baseProps.label);
     expect(labelElement).toBeNull();
   });
 
   it('should render the input element', () => {
-    render(<FormField {...baseProps} />);
+    render(<FormField type="text" {...baseProps} />);
 
     const inputElement = screen.getByRole('textbox');
     expect(inputElement).toBeInTheDocument();
-    expect(inputElement).toHaveAttribute('name', 'email');
+    expect(inputElement).toHaveAttribute('name', baseProps.name);
   });
 
   it('should render the error message when errors are provided', () => {
@@ -60,7 +48,7 @@ describe('FormField Component', () => {
       ...baseProps,
       errors: { message: 'Error message' } as FieldError,
     };
-    render(<FormField {...errorProps} />);
+    render(<FormField type="text" {...errorProps} />);
 
     const errorMessage = screen.getByRole('alert');
     expect(errorMessage).toBeInTheDocument();
@@ -68,7 +56,7 @@ describe('FormField Component', () => {
   });
 
   it('does not render the error message when no errors are provided', () => {
-    render(<FormField {...baseProps} />);
+    render(<FormField type="text" {...baseProps} />);
 
     const errorMessage = screen.getByRole('alert');
     expect(errorMessage).toBeInTheDocument();
