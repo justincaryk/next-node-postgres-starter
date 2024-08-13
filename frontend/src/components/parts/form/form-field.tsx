@@ -10,17 +10,12 @@ import React, {
 } from 'react';
 import { FieldError } from 'react-hook-form';
 
+import Checkbox from './checkbox';
 import Dropdown from './dropdown';
 import Input from './input';
 import Label from './label';
 import Password from './password';
 import TextArea from './text-area';
-
-// interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-//   label?: string;
-//   errors?: FieldError;
-//   name: string;
-// }
 
 interface BaseFormFieldProps {
   label?: string;
@@ -29,7 +24,7 @@ interface BaseFormFieldProps {
 }
 
 interface InputFormFieldProps extends BaseFormFieldProps, InputHTMLAttributes<HTMLInputElement> {
-  type: 'input' | 'password' | 'text' | 'date' | 'email';
+  type: 'input' | 'password' | 'text' | 'date' | 'email' | 'checkbox';
   name: string;
 }
 
@@ -64,10 +59,26 @@ const FormField = React.forwardRef(
     };
 
     const handleKeydown = (e: KeyboardEvent<HTMLLabelElement>) => {
-      if (e.key === '10' || e.key === 'Enter' || e.keyCode === 10) {
+      if (e.key === 'Enter' || e.keyCode === 10) {
         inputRef?.current?.focus();
       }
     };
+
+    // checkboxes use an inline label pattern unlike the rest.
+    if (rest.type === 'checkbox') {
+      return (
+        <div className="space-y-2">
+          <Checkbox
+            aria-describedby={name}
+            text={label || ''}
+            errors={errors}
+            name={name}
+            ref={ref as React.Ref<HTMLInputElement>}
+            {...rest}
+          />
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-2">
@@ -104,7 +115,7 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
-        {rest.type !== 'select' && rest.type !== 'password' && rest.type !== 'textarea' ? (
+        {rest.type === 'text' || rest.type === 'input' || rest.type === 'date' ? (
           <Input
             errors={errors}
             name={name}
