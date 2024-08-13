@@ -18,6 +18,7 @@ export default function Button({
   disabled,
   className = '',
   children,
+  ...rest
 }: Props) {
   const baseStyles = `w-full text-lg font-extra-bold px-6 py-2 border leading-tight uppercase rounded shadow-md transition duration-150 ease-in-out`;
   const bgColor = primary ? 'bg-blue-light' : 'bg-white';
@@ -49,6 +50,7 @@ export default function Button({
       }}
       className={classes}
       {...(disabled ? { disabled: true } : {})}
+      {...rest}
     >
       {loading ? (
         <div
