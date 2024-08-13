@@ -1,58 +1,83 @@
-const VALID_PASSWORD = 'speller-shirting-BUDDHISM-aquiline';
-const EMAIL_EXISTS = 'email@exists.com';
+import 'axe-core';
+import 'cypress-axe';
 
-describe('SignupPage', () => {
+const FAKE_JWT =
+  'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicm9sZV91c2VyIiwiSXNzdWVyIjoiSXNzdWVyIiwidXNlcl9pZCI6IjMxMDIxNjQ2LWFmZGYtNGEzYi05MzQ1LTEyY2JiOGRkMWNhNSIsImV4cCI6IjIwMjQtMDgtMTNUMDM6Mzk6MzEuOTM5WiIsImVtYWlsIjoidmFsaWRAZXhhbXBsZS5jb20ifQ.km1KCKp2PLbIthzXeR6nK3FxWKQto65UMD_Df_hle3A';
+const API_BASE_URL = '/api/graphql';
+
+describe('SignupPage Integration Tests', () => {
   beforeEach(() => {
-    cy.visit('/signup'); // Adjust the route if different
-    // Inject axe-core
-    cy.injectAxe();
+    cy.visit('/signup');
   });
 
-  it('should render the SignupPage with the registration form', () => {
-    cy.contains('Create an account.').should('exist');
-    cy.get('form').should('exist');
-    cy.get('input[name="email"]').should('exist');
-    cy.get('input[name="password"]').should('exist');
-    cy.contains('button', 'Register').should('exist');
+  it('should display the signup form with all fields', () => {
+    cy.get('h1').contains('Create an account.');
+    cy.get('input[name="email"]').should('be.visible');
+    cy.get('input[name="password"]').should('be.visible');
+    cy.get('button[type="submit"]').contains('Register');
 
-    cy.contains('Already a user?').should('exist');
-    cy.contains('Log in').should('exist');
-
+    // check accessibility
     cy.checkA11y();
   });
 
-  // it('should submit the form with valid data and show the success message', () => {
-  //   cy.intercept('POST', '/api/register-user', {
-  //     statusCode: 200,
-  //     body: { code: 'ok' },
-  //   }).as('registerUser');
+  it('should show an error message if the email is already in use', () => {
+    cy.intercept('POST', API_BASE_URL, (req) => {
+      req.reply({
+        body: {
+          data: {
+            signup: {
+              signupResult: {
+                status: 'email in use',
+              },
+            },
+          },
+        },
+      });
+    }).as('signupRequest');
 
-  //   cy.get('input[name="email"]').type('testuser@example.com');
-  //   cy.get('input[name="password"]').type(VALID_PASSWORD);
-  //   cy.contains('button', 'Register').click();
+    cy.get('input[name="email"]').type('existinguser@example.com');
+    cy.get('input[name="password"]').type('ValidPassword123!');
+    cy.get('button[type="submit"]').click();
 
-  //   cy.wait('@registerUser');
+    cy.wait('@signupRequest');
 
-  //   cy.contains('You just joined').should('exist');
-  //   cy.contains('Continue to profile setup').should('exist');
+    cy.get('[role="alert"]').contains('Email is in use. Try another or log in');
 
-  //   cy.checkA11y();
-  // });
+    // check accessibility
+    cy.checkA11y();
+  });
 
-  // it('should show an error message if the email is already in use', () => {
-  //   cy.intercept('POST', '/api/register-user', {
-  //     statusCode: 200,
-  //     body: { code: 'email in use' },
-  //   }).as('registerUserEmailExists');
+  it('should navigate to the RegisterSuccess page after a successful signup', () => {
+    cy.intercept('POST', API_BASE_URL, (req) => {
+      req.reply({
+        body: {
+          data: {
+            signup: {
+              signupResult: {
+                status: 'ok',
+                jwtToken: FAKE_JWT,
+              },
+            },
+          },
+        },
+      });
+    }).as('signupRequest');
 
-  //   cy.get('input[name="email"]').type(EMAIL_EXISTS);
-  //   cy.get('input[name="password"]').type(VALID_PASSWORD);
-  //   cy.contains('button', 'Register').click();
+    cy.get('input[name="email"]').type('newuser@example.com');
+    cy.get('input[name="password"]').type('ValidPassword123!');
+    cy.get('button[type="submit"]').click();
 
-  //   cy.wait('@registerUserEmailExists');
+    cy.wait('@signupRequest');
 
-  //   cy.contains('Email is in use. Try another or log in').should('exist');
+    cy.get('h1').contains('You just joined');
+    cy.get('button[type="submit"]').should('be.visible');
 
-  //   cy.checkA11y();
-  // });
+    // check accessibility
+    cy.checkA11y();
+  });
+
+  it('should navigate to the login page when "Already a user?" is clicked', () => {
+    cy.get('a').contains('Log in').click();
+    cy.url().should('include', '/signin');
+  });
 });

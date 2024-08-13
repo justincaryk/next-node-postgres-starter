@@ -24,8 +24,6 @@ import { useAuthApi } from '../auth/auth-api';
 import { AUTH_FORM_FIELDS } from '../auth/types';
 import { SignupSchema, weakPasswordErrorMsg } from './types';
 
-// import { sleep } from '@/utils/utils';
-
 const options: OptionsType = {
   dictionary: {
     ...(zxcvbnCommonPackage.dictionary as OptionsDictionary),
