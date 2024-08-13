@@ -9,16 +9,11 @@ import Button from '@/components/parts/form/button';
 import FormField from '@/components/parts/form/form-field';
 import { SigninInput } from '@/graphql/generated/graphql';
 import { parseJwt } from '@/utils/utils';
-// import { sleep } from '@/utils/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCurrentUser, useSetCurrentUser } from './atoms/current-user';
 import { useAuthApi } from './auth-api';
 import { AUTH_FORM_FIELDS, AUTH_TOKEN, SigninSchema } from './types';
 
-// TESTING ONLY:
-// 1. email@exists.com will return "ok" and move forward
-// 2. email@no-exist.com will return "not found"
-// 3. all other will return "invalid credentials"
 interface LoginProps {
   onSuccess: () => void;
 }
