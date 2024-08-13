@@ -83,7 +83,7 @@ If you want to run these in a detached state, you can append the `-d` flag to th
 - [] inputs
   - [] checkbox
   - [] text area
-  - []
+  - [] update id pattern. falling back on name is not safe given multiple forms with overlapping names might be rendered in the same DOM 
 - [] style the loading component
 - [] refactor dashboard PAGE into readable components
 - [] audit `useState`: "should it be in an atom"?
