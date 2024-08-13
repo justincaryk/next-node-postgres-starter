@@ -13,4 +13,4 @@ export const ADMIN_ROUTES = {
   ADMIN: '/admin',
 };
 
-export const COMPANY_NAME = 'Novellia Pets';
+export const COMPANY_NAME = 'My Pet Records';

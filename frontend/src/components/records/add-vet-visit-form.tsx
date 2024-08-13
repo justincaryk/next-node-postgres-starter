@@ -54,9 +54,16 @@ export default function AddVetVistForm({ onSuccess }: AddVisitFormProps) {
       />
 
       <FormField
+        label="Follow up requested"
+        type="checkbox"
+        errors={errors.followUpRequested}
+        {...register(RECORD_FORM_FIELDS.FOLLOW_UP_REQUESTED)}
+      />
+
+      <FormField
         label="Notes"
         placeholder="Notes"
-        type="text"
+        type="textarea"
         errors={errors.notes}
         {...register(RECORD_FORM_FIELDS.NOTES)}
       />

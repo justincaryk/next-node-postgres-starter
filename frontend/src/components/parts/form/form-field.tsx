@@ -4,21 +4,18 @@ import React, {
   InputHTMLAttributes,
   KeyboardEvent,
   SelectHTMLAttributes,
+  TextareaHTMLAttributes,
   useImperativeHandle,
   useRef,
 } from 'react';
 import { FieldError } from 'react-hook-form';
 
+import Checkbox from './checkbox';
 import Dropdown from './dropdown';
 import Input from './input';
 import Label from './label';
 import Password from './password';
-
-// interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-//   label?: string;
-//   errors?: FieldError;
-//   name: string;
-// }
+import TextArea from './text-area';
 
 interface BaseFormFieldProps {
   label?: string;
@@ -27,7 +24,14 @@ interface BaseFormFieldProps {
 }
 
 interface InputFormFieldProps extends BaseFormFieldProps, InputHTMLAttributes<HTMLInputElement> {
-  type: 'input' | 'password' | 'text' | 'date' | 'email';
+  type: 'input' | 'password' | 'text' | 'date' | 'email' | 'checkbox';
+  name: string;
+}
+
+interface TextAreaFormFieldProps
+  extends BaseFormFieldProps,
+    TextareaHTMLAttributes<HTMLTextAreaElement> {
+  type: 'textarea';
   name: string;
 }
 
@@ -41,7 +45,7 @@ interface SelectFormFieldProps extends BaseFormFieldProps, SelectHTMLAttributes<
   }[];
 }
 
-type FormFieldProps = InputFormFieldProps | SelectFormFieldProps;
+type FormFieldProps = InputFormFieldProps | SelectFormFieldProps | TextAreaFormFieldProps;
 
 const FormField = React.forwardRef(
   ({ label, errors, name, ...rest }: FormFieldProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -55,10 +59,26 @@ const FormField = React.forwardRef(
     };
 
     const handleKeydown = (e: KeyboardEvent<HTMLLabelElement>) => {
-      if (e.key === '10' || e.key === 'Enter' || e.keyCode === 10) {
+      if (e.key === 'Enter' || e.keyCode === 10) {
         inputRef?.current?.focus();
       }
     };
+
+    // checkboxes use an inline label pattern unlike the rest.
+    if (rest.type === 'checkbox') {
+      return (
+        <div className="space-y-2">
+          <Checkbox
+            aria-describedby={name}
+            text={label || ''}
+            errors={errors}
+            name={name}
+            ref={ref as React.Ref<HTMLInputElement>}
+            {...rest}
+          />
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-2">
@@ -75,6 +95,16 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
+        {rest.type === 'textarea' ? (
+          <TextArea
+            name={name}
+            errors={errors}
+            {...rest}
+            ref={ref as React.Ref<HTMLTextAreaElement>}
+            aria-describedby={name}
+          />
+        ) : null}
+
         {rest.type === 'select' ? (
           <Dropdown
             name={name}
@@ -85,7 +115,10 @@ const FormField = React.forwardRef(
           />
         ) : null}
 
-        {rest.type !== 'select' && rest.type !== 'password' ? (
+        {rest.type === 'text' ||
+        rest.type === 'input' ||
+        rest.type === 'date' ||
+        rest.type === 'email' ? (
           <Input
             errors={errors}
             name={name}

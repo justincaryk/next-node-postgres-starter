@@ -13,6 +13,7 @@ This is a backend service built with Node.js, PostgreSQL, and PostGraphile. It p
 ## Prerequisites
 
 Ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (v14 or higher recommended)
 - [PostgreSQL](https://www.postgresql.org/) (v13 or higher recommended)
 - Docker (if using Docker for development)
@@ -20,23 +21,32 @@ Ensure you have the following installed:
 ## Setup
 
 1. Install dependencies
+
 ```bash
 yarn
 ```
+
 2. Give file write permission to the backend. This may only be an issue on mac/linux. Windows was not tested.
+
 ```bash
 chmod +x ./scripts/run-setup.ts
 ```
+
 3. Hydrate Postgres
+
 ```bash
 yarn migrate
 ```
+
 4. Start a postgres instance. You can initialize as desired. Just make sure to use the config setup in `root/.env`. Alternatively, you can use Docker by running:
+
 ```bash
 cd ../
 docker compose up
 ```
-5. Start the service. 
+
+5. Start the service.
+
 ```bash
 yarn dev
 ```
