@@ -11,7 +11,7 @@ export enum RECORD_FORM_FIELDS {
   VISIT_DATE = 'visitDate',
   VET_NAME = 'vetName',
   NOTES = 'notes',
-  FOLLOW_UP_REQUESTED = 'followUpRequested'
+  FOLLOW_UP_REQUESTED = 'followUpRequested',
 }
 
 export const BaseRecordSchema = Yup.object().shape({
@@ -35,7 +35,7 @@ export const VisitFormSchema = Yup.object().shape({
   [RECORD_FORM_FIELDS.NOTES]: Yup.string(),
   [RECORD_FORM_FIELDS.VET_NAME]: Yup.string().required('Vet name is required'),
   [RECORD_FORM_FIELDS.VISIT_DATE]: Yup.string().required('Visit date is required'),
-  [RECORD_FORM_FIELDS.FOLLOW_UP_REQUESTED]: Yup.boolean()
+  [RECORD_FORM_FIELDS.FOLLOW_UP_REQUESTED]: Yup.boolean(),
 });
 
 export type MungedPetRecord = Pick<Record, 'petId' | 'recordType' | 'createdAt' | 'userId'> & {

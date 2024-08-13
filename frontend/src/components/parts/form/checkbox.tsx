@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useRef } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,6 +8,9 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Checkbox = React.forwardRef(
   ({ errors, text, ...rest }: CheckboxProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    // TODO: integrate error state styling
+    // TODO: integrate disabled state styling
+    console.log('errors: ', errors);
     return (
       <div className="flex items-center">
         <input
