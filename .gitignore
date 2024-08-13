@@ -13,6 +13,6 @@ package-lock.json
 .lsp
 .swc
 
-cypress/screenshots/
-cypress/videos/
-cypress/downloads/
+**/*/cypress/screenshots/**/*
+**/*/cypress/videos/**/*
+**/*/cypress/downloads/**/*
